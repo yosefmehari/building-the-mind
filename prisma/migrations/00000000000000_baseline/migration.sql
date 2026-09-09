@@ -1,0 +1,2 @@
+-- Baseline for the existing PostgreSQL schema.
+-- The live database already matches prisma/schema.prisma.

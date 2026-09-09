@@ -1,0 +1,13 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { ArrowLeft, GraduationCap, Users } from "lucide-react";
+import { requireAdmin } from "@/lib/auth/session";
+import { db } from "@/lib/db";
+
+export const metadata: Metadata = { title: "Manage Students", robots: { index: false, follow: false } };
+
+export default async function AdminStudentsPage() {
+  await requireAdmin();
+  const students = await db.user.findMany({ where: { role: "student" }, orderBy: { created_at: "desc" }, select: { id: true, name: true, email: true, created_at: true, _count: { select: { enrollments: true, student_progress: true, quiz_attempts: true } } } });
+  return <main className="flex-1 px-4 py-14"><div className="mx-auto max-w-6xl space-y-8"><Link href="/admin" className="inline-flex items-center gap-2 text-sm text-slate-400 transition hover:text-white"><ArrowLeft className="h-4 w-4" />Dashboard</Link><div className="flex items-end justify-between gap-4"><div><p className="text-xs font-semibold uppercase tracking-[0.18em] text-amber-400">People</p><h1 className="mt-1 text-3xl font-black text-white">Students</h1><p className="mt-2 text-sm text-slate-400">Review learner accounts and activity.</p></div><span className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-900/60 px-3 py-1.5 text-xs text-slate-400"><Users className="h-3.5 w-3.5 text-amber-400" />{students.length} total</span></div><section className="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60"><div className="divide-y divide-slate-800/80">{students.length > 0 ? students.map((student) => <div key={student.id.toString()} className="flex flex-col gap-3 px-6 py-5 sm:flex-row sm:items-center"><div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 text-amber-400"><GraduationCap className="h-5 w-5" /></div><div className="min-w-0 flex-1"><h2 className="truncate font-medium text-white">{student.name}</h2><p className="mt-1 truncate text-xs text-slate-500">{student.email} · Joined {student.created_at.toLocaleDateString()}</p></div><div className="grid grid-cols-3 gap-4 text-center text-xs text-slate-500"><span><strong className="block text-sm text-white">{student._count.enrollments}</strong>courses</span><span><strong className="block text-sm text-white">{student._count.student_progress}</strong>progress</span><span><strong className="block text-sm text-white">{student._count.quiz_attempts}</strong>quizzes</span></div></div>) : <div className="px-6 py-16 text-center"><Users className="mx-auto h-8 w-8 text-slate-700" /><p className="mt-3 text-sm text-slate-500">No students have registered yet.</p></div>}</div></section></div></main>;
+}

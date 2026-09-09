@@ -1,0 +1,26 @@
+{
+  "common": {
+    "language": "Language",
+    "courses": "Courses",
+    "fullStack": "Full Stack",
+    "english": "English",
+    "admin": "Admin",
+    "dashboard": "Dashboard",
+    "studentSignIn": "Student sign in",
+    "search": "Search"
+  },
+  "home": {
+    "title": "Building the Mind with Joss",
+    "browseCourses": "Browse All Courses",
+    "startEnglish": "Start English A1",
+    "whatYouWillLearn": "What You Will Learn",
+    "twoTracks": "Two complete learning tracks, built for real results.",
+    "fullStackTitle": "Full Stack Web Application Development",
+    "englishTitle": "English Language Mastery A1 → C2",
+    "startLearning": "Start Learning",
+    "startWithA1": "Start with A1",
+    "whyTitle": "Why Building the Mind?",
+    "readyTitle": "Ready to Start Learning?",
+    "exploreCourses": "Explore All Courses"
+  }
+}

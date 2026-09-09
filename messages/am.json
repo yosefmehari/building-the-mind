@@ -1,0 +1,26 @@
+{
+  "common": {
+    "language": "ቋንቋ",
+    "courses": "ኮርሶች",
+    "fullStack": "Full Stack",
+    "english": "እንግሊዝኛ",
+    "admin": "አስተዳዳሪ",
+    "dashboard": "ዳሽቦርድ",
+    "studentSignIn": "የተማሪ መግቢያ",
+    "search": "ፈልግ"
+  },
+  "home": {
+    "title": "Building the Mind with Joss",
+    "browseCourses": "ሁሉንም ኮርሶች ይመልከቱ",
+    "startEnglish": "እንግሊዝኛ A1 ይጀምሩ",
+    "whatYouWillLearn": "ምን ይማራሉ",
+    "twoTracks": "ለእውነተኛ ውጤት የተዘጋጁ ሁለት ሙሉ የትምህርት መስመሮች።",
+    "fullStackTitle": "የFull Stack ዌብ አፕሊኬሽን ልማት",
+    "englishTitle": "የእንግሊዝኛ ቋንቋ ብቃት A1 → C2",
+    "startLearning": "መማር ይጀምሩ",
+    "startWithA1": "በ A1 ይጀምሩ",
+    "whyTitle": "ለምን Building the Mind?",
+    "readyTitle": "ለመማር ዝግጁ ነዎት?",
+    "exploreCourses": "ሁሉንም ኮርሶች ያስሱ"
+  }
+}

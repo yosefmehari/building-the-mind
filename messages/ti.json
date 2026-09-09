@@ -1,0 +1,26 @@
+{
+  "common": {
+    "language": "ቋንቋ",
+    "courses": "ትምህርቲታት",
+    "fullStack": "Full Stack",
+    "english": "እንግሊዝኛ",
+    "admin": "ኣስተዳዳሪ",
+    "dashboard": "ዳሽቦርድ",
+    "studentSignIn": "ተማሃራይ እቶ",
+    "search": "ድለ"
+  },
+  "home": {
+    "title": "Building the Mind with Joss",
+    "browseCourses": "ኩሎም ትምህርቲታት",
+    "startEnglish": "እንግሊዝኛ A1 ጀምር",
+    "whatYouWillLearn": "እንታይ ክትመሃር ኢኻ",
+    "twoTracks": "ንሓቀኛ ውጽኢት ዝተዳለዉ ክልተ ሙሉእ መስመራት ትምህርቲ።",
+    "fullStackTitle": "ምሉእ Stack ምዕባለ ዌብ ኣፕሊኬሽን",
+    "englishTitle": "ምልከት ቋንቋ እንግሊዝኛ A1 → C2",
+    "startLearning": "ትምህርቲ ጀምር",
+    "startWithA1": "ብ A1 ጀምር",
+    "whyTitle": "ስለምንታይ Building the Mind?",
+    "readyTitle": "ንምጅማር ትምህርቲ ድሉው ዲኻ?",
+    "exploreCourses": "ኩሎም ኮርሳት ርአ"
+  }
+}

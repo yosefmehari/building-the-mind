@@ -1,0 +1,278 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               BigInt             @id @default(autoincrement())
+  name             String             @db.VarChar(100)
+  email            String             @unique @db.VarChar(255)
+  password_hash    String
+  role             String             @default("student") @db.VarChar(20)
+  created_at       DateTime           @default(now()) @db.Timestamp(6)
+  updated_at       DateTime           @default(now()) @db.Timestamp(6)
+  bookmarks        bookmarks[]
+  enrollments      Enrollment[]
+  quiz_attempts    QuizAttempt[]
+  student_progress student_progress[]
+
+  @@map("users")
+}
+
+model Course {
+  id                  BigInt                @id @default(autoincrement())
+  title               String                @db.VarChar(255)
+  slug                String                @unique @db.VarChar(255)
+  description         String?
+  thumbnail_url       String?
+  category_id         BigInt?
+  level_id            BigInt?
+  published           Boolean               @default(false)
+  featured            Boolean               @default(false)
+  created_at          DateTime              @default(now()) @db.Timestamp(6)
+  updated_at          DateTime              @default(now()) @db.Timestamp(6)
+  course_translations course_translations[]
+  course_categories   course_categories?    @relation(fields: [category_id], references: [id], onUpdate: NoAction, map: "fk_course_category")
+  levels              levels?               @relation(fields: [level_id], references: [id], onUpdate: NoAction, map: "fk_course_level")
+  enrollments         Enrollment[]
+  modules             Module[]
+
+  @@index([category_id], map: "idx_courses_category")
+  @@index([featured], map: "idx_courses_featured")
+  @@index([level_id], map: "idx_courses_level")
+  @@index([published], map: "idx_courses_published")
+  @@map("courses")
+}
+
+model Module {
+  id         BigInt   @id @default(autoincrement())
+  course_id  BigInt
+  title      String   @db.VarChar(255)
+  position   Int      @default(0)
+  published  Boolean  @default(false)
+  created_at DateTime @default(now()) @db.Timestamp(6)
+  updated_at DateTime @default(now()) @db.Timestamp(6)
+  lessons    Lesson[]
+  courses    Course   @relation(fields: [course_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([course_id], map: "idx_modules_course")
+  @@map("modules")
+}
+
+model Lesson {
+  id                  BigInt                @id @default(autoincrement())
+  module_id           BigInt
+  title               String                @db.VarChar(255)
+  slug                String                @db.VarChar(255)
+  description         String?
+  content             String?
+  duration_minutes    Int?                  @default(0)
+  position            Int                   @default(0)
+  published           Boolean               @default(false)
+  created_at          DateTime              @default(now()) @db.Timestamp(6)
+  updated_at          DateTime              @default(now()) @db.Timestamp(6)
+  bookmarks           bookmarks[]
+  lesson_files        lesson_files[]
+  lesson_translations lesson_translations[]
+  modules             Module                @relation(fields: [module_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  quizzes             Quiz[]
+  student_progress    student_progress[]
+  videos              videos[]
+
+  @@unique([module_id, slug])
+  @@index([module_id], map: "idx_lessons_module")
+  @@index([published], map: "idx_lessons_published")
+  @@map("lessons")
+}
+
+model Quiz {
+  id            BigInt        @id @default(autoincrement())
+  lesson_id     BigInt
+  title         String        @db.VarChar(255)
+  description   String?
+  published     Boolean       @default(false)
+  created_at    DateTime      @default(now()) @db.Timestamp(6)
+  updated_at    DateTime      @default(now()) @db.Timestamp(6)
+  questions     Question[]
+  quiz_attempts QuizAttempt[]
+  lessons       Lesson        @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([lesson_id], map: "idx_quizzes_lesson")
+  @@map("quizzes")
+}
+
+model Question {
+  id                   BigInt                 @id @default(autoincrement())
+  quiz_id              BigInt
+  question             String
+  position             Int                    @default(0)
+  answers              answers[]
+  quizzes              Quiz                   @relation(fields: [quiz_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  quiz_attempt_answers quiz_attempt_answers[]
+
+  @@index([quiz_id], map: "idx_questions_quiz")
+  @@map("questions")
+}
+
+model QuizAttempt {
+  id                   BigInt                 @id @default(autoincrement())
+  user_id              BigInt
+  quiz_id              BigInt
+  score                Int                    @default(0)
+  total_questions      Int                    @default(0)
+  completed_at         DateTime               @default(now()) @db.Timestamp(6)
+  quiz_attempt_answers quiz_attempt_answers[]
+  quizzes              Quiz                   @relation(fields: [quiz_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users                User                   @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([quiz_id], map: "idx_quiz_attempts_quiz")
+  @@index([user_id], map: "idx_quiz_attempts_user")
+  @@map("quiz_attempts")
+}
+
+model Enrollment {
+  id          BigInt   @id @default(autoincrement())
+  user_id     BigInt
+  course_id   BigInt
+  enrolled_at DateTime @default(now()) @db.Timestamp(6)
+  courses     Course   @relation(fields: [course_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users       User     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([user_id, course_id])
+  @@index([course_id], map: "idx_enrollments_course")
+  @@index([user_id], map: "idx_enrollments_user")
+  @@map("enrollments")
+}
+
+model answers {
+  id                   BigInt                 @id @default(autoincrement())
+  question_id          BigInt
+  answer               String
+  is_correct           Boolean                @default(false)
+  questions            Question               @relation(fields: [question_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  quiz_attempt_answers quiz_attempt_answers[]
+
+  @@index([question_id], map: "idx_answers_question")
+}
+
+model bookmarks {
+  id         BigInt   @id @default(autoincrement())
+  user_id    BigInt
+  lesson_id  BigInt
+  created_at DateTime @default(now()) @db.Timestamp(6)
+  lessons    Lesson   @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users      User     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([user_id, lesson_id])
+  @@index([user_id], map: "idx_bookmarks_user")
+}
+
+model course_categories {
+  id          BigInt   @id @default(autoincrement())
+  name        String   @unique @db.VarChar(100)
+  description String?
+  created_at  DateTime @default(now()) @db.Timestamp(6)
+  courses     Course[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model course_translations {
+  id          BigInt  @id @default(autoincrement())
+  course_id   BigInt
+  language    String  @db.VarChar(10)
+  title       String  @db.VarChar(255)
+  description String?
+  courses     Course  @relation(fields: [course_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([course_id, language])
+}
+
+model lesson_files {
+  id               BigInt   @id @default(autoincrement())
+  lesson_id        BigInt
+  name             String   @db.VarChar(255)
+  file_url         String
+  storage_provider String?  @db.VarChar(50)
+  storage_key      String?
+  file_type        String?  @db.VarChar(100)
+  file_size        BigInt?
+  created_at       DateTime @default(now()) @db.Timestamp(6)
+  lessons          Lesson   @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([lesson_id], map: "idx_files_lesson")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model lesson_translations {
+  id          BigInt  @id @default(autoincrement())
+  lesson_id   BigInt
+  language    String  @db.VarChar(10)
+  title       String  @db.VarChar(255)
+  description String?
+  content     String?
+  lessons     Lesson  @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([lesson_id, language])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model levels {
+  id          BigInt   @id @default(autoincrement())
+  name        String   @unique @db.VarChar(10)
+  description String?
+  created_at  DateTime @default(now()) @db.Timestamp(6)
+  courses     Course[]
+}
+
+model quiz_attempt_answers {
+  id            BigInt      @id @default(autoincrement())
+  attempt_id    BigInt
+  question_id   BigInt
+  answer_id     BigInt?
+  is_correct    Boolean     @default(false)
+  answers       answers?    @relation(fields: [answer_id], references: [id], onUpdate: NoAction)
+  quiz_attempts QuizAttempt @relation(fields: [attempt_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  questions     Question    @relation(fields: [question_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model student_progress {
+  id                   BigInt    @id @default(autoincrement())
+  user_id              BigInt
+  lesson_id            BigInt
+  completed            Boolean   @default(false)
+  progress_percent     Int       @default(0)
+  last_watched_seconds Int       @default(0)
+  completed_at         DateTime? @db.Timestamp(6)
+  updated_at           DateTime  @default(now()) @db.Timestamp(6)
+  lessons              Lesson    @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users                User      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([user_id, lesson_id])
+  @@index([lesson_id], map: "idx_progress_lesson")
+  @@index([user_id], map: "idx_progress_user")
+}
+
+model videos {
+  id               BigInt   @id @default(autoincrement())
+  lesson_id        BigInt
+  title            String   @db.VarChar(255)
+  description      String?
+  video_url        String
+  thumbnail_url    String?
+  storage_provider String?  @db.VarChar(50)
+  storage_key      String?
+  duration_seconds Int?     @default(0)
+  file_size        BigInt?
+  mime_type        String?  @db.VarChar(100)
+  published        Boolean  @default(false)
+  created_at       DateTime @default(now()) @db.Timestamp(6)
+  updated_at       DateTime @default(now()) @db.Timestamp(6)
+  lessons          Lesson   @relation(fields: [lesson_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([lesson_id], map: "idx_videos_lesson")
+}
