@@ -61,7 +61,7 @@ export async function requireAdmin() {
 
 export async function requireStudent() {
   const session = await getSession();
-  if (!session || session.role.toLowerCase() !== "student") redirect("/login");
+  if (!session || !["student", "admin"].includes(session.role.toLowerCase())) redirect("/login");
   return session;
 }
 

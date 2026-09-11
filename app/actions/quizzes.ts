@@ -15,8 +15,10 @@ export async function createQuiz(
   const lessonIdValue = String(formData.get("lessonId") ?? "");
   const title = String(formData.get("title") ?? "").trim();
   const description = String(formData.get("description") ?? "").trim();
+  const completionScope = String(formData.get("completionScope") ?? "lesson");
+  const required = true;
 
-  if (!/^\d+$/.test(lessonIdValue) || title.length < 2 || title.length > 255) {
+  if (!/^\d+$/.test(lessonIdValue) || title.length < 2 || title.length > 255 || !["lesson", "module", "course"].includes(completionScope)) {
     return { error: "Choose a lesson and enter a title between 2 and 255 characters." };
   }
 
@@ -25,7 +27,7 @@ export async function createQuiz(
   if (!lesson) return { error: "The selected lesson does not exist." };
 
   await db.quiz.create({
-    data: { lesson_id: lessonId, title, description: description || null, published: false },
+    data: { lesson_id: lessonId, title, description: description || null, required, completion_scope: completionScope, published: false },
   });
 
   revalidatePath("/admin");

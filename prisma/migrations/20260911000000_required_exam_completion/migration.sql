@@ -1,0 +1,3 @@
+ALTER TABLE "quizzes"
+  ADD COLUMN IF NOT EXISTS "required" BOOLEAN NOT NULL DEFAULT false,
+  ADD COLUMN IF NOT EXISTS "completion_scope" VARCHAR(20) NOT NULL DEFAULT 'lesson';

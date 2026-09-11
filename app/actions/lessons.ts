@@ -41,21 +41,35 @@ export async function createLesson(
   const price = !isFree && priceRaw ? parseFloat(priceRaw) : null;
   const currency = String(formData.get("currency") ?? "USD").trim().toUpperCase() || "USD";
 
-  await db.lesson.create({
-    data: {
-      module_id: moduleId,
-      title,
-      slug,
-      position: (lastLesson?.position ?? -1) + 1,
-      published: false,
-      is_free: isFree,
-      price: price !== null && !isNaN(price) ? price : null,
-      currency,
-    },
+  await db.$transaction(async (transaction) => {
+    const lesson = await transaction.lesson.create({
+      data: {
+        module_id: moduleId,
+        title,
+        slug,
+        position: (lastLesson?.position ?? -1) + 1,
+        published: false,
+        is_free: isFree,
+        price: price !== null && !isNaN(price) ? price : null,
+        currency,
+      },
+      select: { id: true },
+    });
+
+    await transaction.quiz.create({
+      data: {
+        lesson_id: lesson.id,
+        title: `${title} Exam`,
+        description: "Required exam for this lesson.",
+        required: true,
+        completion_scope: "lesson",
+        published: false,
+      },
+    });
   });
 
   revalidatePath("/admin");
   revalidatePath("/admin/lessons");
   revalidatePath("/admin/modules");
-  return { success: "Lesson created as a draft." };
+  return { success: "Lesson and required exam created as drafts. Add questions to the exam before publishing." };
 }

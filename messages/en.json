@@ -7,7 +7,38 @@
     "admin": "Admin",
     "dashboard": "Dashboard",
     "studentSignIn": "Student sign in",
-    "search": "Search"
+    "search": "Search",
+    "language": "Language",
+    "free": "Free",
+    "start": "Start",
+    "lessons": "lessons",
+    "coursesTitle": "All Courses",
+    "exploreCourses": "Explore Our Courses",
+    "coursesDescription": "Everything you need to master Full Stack Web Development and English — from beginner to expert.",
+    "fullStackDevelopment": "Full Stack Web Development",
+    "englishTrack": "English Language A1 → C2",
+    "backToCourses": "Back to Courses",
+    "curriculum": "Curriculum",
+    "allEnglishLevels": "All English Levels",
+    "previousLevel": "Previous level",
+    "nextLevel": "Next level"
+    ,"modules": "modules"
+    ,"courseCurriculum": "Course Curriculum"
+    ,"lessonResources": "Lesson resources"
+    ,"courseContents": "Course contents"
+    ,"courseProgress": "Course progress"
+    ,"completedLessons": "lessons completed"
+    ,"videoComingSoon": "Video coming soon."
+    ,"browserVideoError": "Your browser does not support video playback."
+    ,"noLessons": "No lessons published yet."
+    ,"lessonsComingSoon": "Lessons coming soon."
+    ,"pageNotFound": "Page Not Found"
+    ,"backHome": "Back to Home"
+    ,"notifications": "Notifications"
+    ,"close": "Close"
+    ,"caughtUp": "You are all caught up."
+    ,"notificationUpdates": "New course updates will appear here."
+    ,"allRead": "All notifications are read"
   },
   "home": {
     "title": "Building the Mind with Joss",
@@ -21,6 +52,36 @@
     "startWithA1": "Start with A1",
     "whyTitle": "Why Building the Mind?",
     "readyTitle": "Ready to Start Learning?",
-    "exploreCourses": "Explore All Courses"
+    "exploreCourses": "Explore All Courses",
+    "professionalEducation": "Professional Online Education — Joss",
+    "masterDescription": "Master Full Stack Web Development and English A1 → C2. Taught in English, Tigrinya, and Amharic.",
+    "coursesCount": "Courses",
+    "lessonsCount": "Lessons",
+    "languagesCount": "Languages",
+    "designedForResults": "Designed to be accessible, effective, and multilingual.",
+    "multilingual": "Multilingual",
+    "multilingualDescription": "All content is available in English, Tigrinya, and Amharic.",
+    "videoLearning": "Video-First Learning",
+    "videoLearningDescription": "Video lessons with PDF downloads, audio exercises, and interactive quizzes.",
+    "structuredCurriculum": "Structured Curriculum",
+    "structuredCurriculumDescription": "Clear modules and lessons with progress tracking.",
+    "readyDescription": "Join Building the Mind with Joss today and learn in your language."
+  },
+  "auth": {
+    "studentSignIn": "Student sign in",
+    "signInDescription": "Continue your lessons and keep your progress.",
+    "newStudent": "New student?",
+    "createAccount": "Create an account",
+    "createAccountTitle": "Create your student account",
+    "registerDescription": "Start learning and save your course progress.",
+    "alreadyRegistered": "Already registered?",
+    "signIn": "Sign in"
+  },
+  "footer": {
+    "courses": "Courses",
+    "connect": "Connect",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "description": "A premier online platform delivering world-class education in Full Stack Web Development and English A1–C2 in English, Tigrinya, and Amharic."
   }
 }

@@ -6,6 +6,8 @@ import { PlayCircle, FileText, Volume2, ArrowLeft } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/lib/currencies";
 import type { Metadata } from "next";
+import { defaultLocale, isLocale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/dictionaries";
 
 export const dynamic = "force-dynamic";
 
@@ -49,6 +51,8 @@ export default async function CourseDetailPage({ params }: Props) {
 
   const cookieStore = await cookies();
   const displayCurrency = cookieStore.get("preferred_currency")?.value ?? "USD";
+  const localeValue = cookieStore.get("locale")?.value ?? defaultLocale;
+  const copy = getDictionary(isLocale(localeValue) ? localeValue : defaultLocale).common;
 
   const totalLessons = course.modules.reduce((s, m) => s + m.lessons.length, 0);
 
@@ -58,7 +62,7 @@ export default async function CourseDetailPage({ params }: Props) {
         {/* Back link */}
         <Link href="/courses" className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white transition">
           <ArrowLeft className="w-4 h-4" />
-          Back to Courses
+          {copy.backToCourses}
         </Link>
 
         {/* Course Header */}
@@ -68,7 +72,7 @@ export default async function CourseDetailPage({ params }: Props) {
               <div className="flex items-center gap-2">
                 {course.levels && <Badge variant="indigo" size="md">{course.levels.name}</Badge>}
                 <Badge variant={course.is_free ? "emerald" : "amber"} size="md">
-                  {course.is_free ? "Free Course" : formatPrice(Number(course.price ?? 0), course.currency ?? "USD", displayCurrency)}
+                  {course.is_free ? copy.free : formatPrice(Number(course.price ?? 0), course.currency ?? "USD", displayCurrency)}
                 </Badge>
               </div>
               <h1 className="text-3xl font-black text-white">{course.title}</h1>
@@ -77,15 +81,15 @@ export default async function CourseDetailPage({ params }: Props) {
               )}
             </div>
             <div className="text-right text-sm text-slate-400 space-y-1 shrink-0">
-              <div><strong className="text-white">{course.modules.length}</strong> modules</div>
-              <div><strong className="text-white">{totalLessons}</strong> lessons</div>
+              <div><strong className="text-white">{course.modules.length}</strong> {copy.modules}</div>
+              <div><strong className="text-white">{totalLessons}</strong> {copy.lessons}</div>
             </div>
           </div>
         </div>
 
         {/* Modules & Lessons */}
         <div className="space-y-5">
-          <h2 className="text-xl font-bold text-white">Course Curriculum</h2>
+          <h2 className="text-xl font-bold text-white">{copy.courseCurriculum}</h2>
           {course.modules.map((mod, idx) => (
             <div key={mod.id.toString()} className="rounded-2xl bg-slate-900/60 border border-slate-800 overflow-hidden">
               {/* Module Header */}
@@ -127,7 +131,7 @@ export default async function CourseDetailPage({ params }: Props) {
                 ))}
                 {mod.lessons.length === 0 && (
                   <li className="px-6 py-4 text-sm text-slate-600 italic">
-                    No lessons published yet.
+                    {copy.noLessons}
                   </li>
                 )}
               </ul>

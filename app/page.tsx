@@ -61,7 +61,7 @@ export default async function Home() {
           {/* Pill */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/8 text-indigo-300 text-sm font-medium">
             <Sparkles className="w-3.5 h-3.5" />
-            Professional Online Education — Joss
+            {homeCopy.professionalEducation}
           </div>
 
           {/* Headline */}
@@ -77,11 +77,7 @@ export default async function Home() {
 
           {/* Sub */}
           <p className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
-            Master{" "}
-            <span className="text-white font-semibold">Full Stack Web Development</span>{" "}
-            and{" "}
-            <span className="text-white font-semibold">English A1 → C2</span>.
-            Taught in English, Tigrinya, and Amharic.
+            {homeCopy.masterDescription}
           </p>
 
           {/* Language badges */}
@@ -109,17 +105,17 @@ export default async function Home() {
           <div className="flex flex-wrap items-center justify-center gap-6 pt-6 text-sm text-slate-400">
             <span className="flex items-center gap-1.5">
               <GraduationCap className="w-4 h-4 text-indigo-400" />
-              <strong className="text-white">{courseCount}</strong> Courses
+              <strong className="text-white">{courseCount}</strong> {homeCopy.coursesCount}
             </span>
             <span className="w-px h-4 bg-slate-800 hidden sm:block" />
             <span className="flex items-center gap-1.5">
               <PlayCircle className="w-4 h-4 text-emerald-400" />
-              <strong className="text-white">{lessonCount}+</strong> Lessons
+              <strong className="text-white">{lessonCount}+</strong> {homeCopy.lessonsCount}
             </span>
             <span className="w-px h-4 bg-slate-800 hidden sm:block" />
             <span className="flex items-center gap-1.5">
               <Globe2 className="w-4 h-4 text-amber-400" />
-              <strong className="text-white">3</strong> Languages
+              <strong className="text-white">3</strong> {homeCopy.languagesCount}
             </span>
           </div>
         </div>
@@ -199,27 +195,27 @@ export default async function Home() {
         <div className="max-w-5xl mx-auto text-center space-y-12">
           <div className="space-y-2">
             <h2 className="text-3xl font-bold text-white">{homeCopy.whyTitle}</h2>
-            <p className="text-slate-400">Designed to be accessible, effective, and multilingual.</p>
+            <p className="text-slate-400">{homeCopy.designedForResults}</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
               {
                 icon: <Globe2 className="w-6 h-6" />,
-                title: "Multilingual",
-                desc: "All content available in English, Tigrinya (🇪🇷), and Amharic (🇪🇹) so no student is left behind.",
+                title: homeCopy.multilingual,
+                desc: homeCopy.multilingualDescription,
                 color: "indigo",
               },
               {
                 icon: <PlayCircle className="w-6 h-6" />,
-                title: "Video-First Learning",
-                desc: "High-quality video lessons with PDF downloads, audio exercises, and interactive quizzes.",
+                title: homeCopy.videoLearning,
+                desc: homeCopy.videoLearningDescription,
                 color: "emerald",
               },
               {
                 icon: <Star className="w-6 h-6" />,
-                title: "Structured Curriculum",
-                desc: "Industry-aligned courses organized into clear modules and lessons with progress tracking.",
+                title: homeCopy.structuredCurriculum,
+                desc: homeCopy.structuredCurriculumDescription,
                 color: "amber",
               },
             ].map((item) => (
@@ -252,7 +248,7 @@ export default async function Home() {
               {homeCopy.readyTitle}
             </h2>
             <p className="text-slate-300 text-lg max-w-xl mx-auto">
-              Join Building the Mind with Joss today and unlock a world-class education in your language.
+              {homeCopy.readyDescription}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
               <Link href="/courses">

@@ -7,7 +7,38 @@
     "admin": "ኣስተዳዳሪ",
     "dashboard": "ዳሽቦርድ",
     "studentSignIn": "ተማሃራይ እቶ",
-    "search": "ድለ"
+    "search": "ድለ",
+    "language": "ቋንቋ",
+    "free": "ነጻ",
+    "start": "ጀምር",
+    "lessons": "ትምህርትታት",
+    "coursesTitle": "ኩሎም ትምህርቲታት",
+    "exploreCourses": "ትምህርቲታትና ርአ",
+    "coursesDescription": "Full Stack Web Developmentን እንግሊዝኛን ካብ ጀማሪ ክሳብ ልዑል ደረጃ ተማሃር።",
+    "fullStackDevelopment": "ምሉእ Stack ምዕባለ ዌብ",
+    "englishTrack": "ቋንቋ እንግሊዝኛ A1 → C2",
+    "backToCourses": "ናብ ትምህርቲታት ተመለስ",
+    "curriculum": "ስርዓተ ትምህርቲ",
+    "allEnglishLevels": "ኩሎም ደረጃታት እንግሊዝኛ",
+    "previousLevel": "ዝሓለፈ ደረጃ",
+    "nextLevel": "ዝቕጽል ደረጃ"
+    ,"modules": "ሞጁላት"
+    ,"courseCurriculum": "ስርዓተ ትምህርቲ"
+    ,"lessonResources": "መሳርሒታት ትምህርቲ"
+    ,"courseContents": "ትሕዝቶ ትምህርቲ"
+    ,"courseProgress": "ዕቤት ትምህርቲ"
+    ,"completedLessons": "ትምህርትታት ተዛዚመን"
+    ,"videoComingSoon": "ቪድዮ ቀልጢፉ ክመጽእ እዩ።"
+    ,"browserVideoError": "መሳርሒ ምርኣይካ ቪድዮ ኣይድግፍን።"
+    ,"noLessons": "ዝተሓተሙ ትምህርትታት የለዉን።"
+    ,"lessonsComingSoon": "ትምህርትታት ቀልጢፎም ክመጹ እዮም።"
+    ,"pageNotFound": "ገጽ ኣይተረኽበን"
+    ,"backHome": "ናብ መበገሲ ተመለስ"
+    ,"notifications": "መልእኽትታት"
+    ,"close": "ዕጸው"
+    ,"caughtUp": "ኩሉ ሓበሬታ ኣንቢብካዮ ኢኻ።"
+    ,"notificationUpdates": "ሓደሽቲ ዜናታት ትምህርቲ ኣብዚ ክርአዩ እዮም።"
+    ,"allRead": "ኩሎም መልእኽትታት ተነቢቦም"
   },
   "home": {
     "title": "Building the Mind with Joss",
@@ -21,6 +52,36 @@
     "startWithA1": "ብ A1 ጀምር",
     "whyTitle": "ስለምንታይ Building the Mind?",
     "readyTitle": "ንምጅማር ትምህርቲ ድሉው ዲኻ?",
-    "exploreCourses": "ኩሎም ኮርሳት ርአ"
+    "exploreCourses": "ኩሎም ኮርሳት ርአ",
+    "professionalEducation": "ሞያዊ ትምህርቲ ኦንላይን — Joss",
+    "masterDescription": "Full Stack Web Developmentን እንግሊዝኛ A1 → C2ን ተማር። ብእንግሊዝኛ፣ ትግርኛን ኣማርኛን።",
+    "coursesCount": "ትምህርቲታት",
+    "lessonsCount": "ትምህርትታት",
+    "languagesCount": "ቋንቋታት",
+    "designedForResults": "ቀሊል፣ ውጽኢታዊን ብብዙሕ ቋንቋታትን ዝተዳለወ።",
+    "multilingual": "ብብዙሕ ቋንቋታት",
+    "multilingualDescription": "ኩሎም ትምህርቲታት ብእንግሊዝኛ፣ ትግርኛን ኣማርኛን ኣለዉ።",
+    "videoLearning": "ትምህርቲ ቪድዮ",
+    "videoLearningDescription": "ቪድዮ፣ PDF፣ ድምጺ ልምምድን ኢንተራክቲቭ ፈተናታትን።",
+    "structuredCurriculum": "ዝተዋደደ ስርዓተ ትምህርቲ",
+    "structuredCurriculumDescription": "ግልጺ ሞጁላትን ትምህርትታትን ምስ ክትትል ዕቤት።",
+    "readyDescription": "ሎሚ ምስ Building the Mind with Joss ተጸንበር እሞ ብቋንቋኻ ተማሃር።"
+  },
+  "auth": {
+    "studentSignIn": "ተማሃራይ እቶ",
+    "signInDescription": "ትምህርትኻ ቀጽል እሞ ዕቤትኻ ሓሉ።",
+    "newStudent": "ሓድሽ ተማሃራይ?",
+    "createAccount": "ሕሳብ ፍጠር",
+    "createAccountTitle": "ሕሳብ ተማሃራይካ ፍጠር",
+    "registerDescription": "ትምህርቲ ጀምር እሞ ዕቤትኻ ኣቐምጥ።",
+    "alreadyRegistered": "ድሮ ተመዝጊብካ?",
+    "signIn": "እቶ"
+  },
+  "footer": {
+    "courses": "ትምህርቲታት",
+    "connect": "ተራኸብ",
+    "privacy": "ፖሊሲ ምስጢራዊነት",
+    "terms": "ውዕል ኣገልግሎት",
+    "description": "ኣብ Full Stack Web Developmentን እንግሊዝኛ A1–C2ን ብእንግሊዝኛ፣ ትግርኛን ኣማርኛን ዓለምለኻዊ ትምህርቲ ዝህብ መድረኽ።"
   }
 }

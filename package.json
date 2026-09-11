@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "admin:create": "node scripts/create-admin.mjs",
-    "curriculum:full-stack": "node scripts/seed-full-stack.mjs"
+    "curriculum:full-stack": "node scripts/seed-full-stack.mjs",
+    "curriculum:english": "node scripts/seed-english.mjs",
+    "exams:ensure": "node scripts/ensure-lesson-exams.mjs"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",

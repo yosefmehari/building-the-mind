@@ -3,6 +3,9 @@ import Link from "next/link";
 import { BookOpen, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
+import { defaultLocale, isLocale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/dictionaries";
 
 export const dynamic = "force-dynamic";
 
@@ -34,14 +37,17 @@ async function getEnglishCourses() {
 
 export default async function EnglishPage() {
   const courses = await getEnglishCourses();
+  const localeValue = (await cookies()).get("locale")?.value ?? defaultLocale;
+  const dictionary = getDictionary(isLocale(localeValue) ? localeValue : defaultLocale);
+  const copy = dictionary.common;
 
   return (
     <main className="flex-1 py-20 px-4">
       <div className="max-w-5xl mx-auto space-y-14">
         {/* Header */}
         <div className="text-center space-y-4">
-          <Badge variant="emerald" dot>English Language Track</Badge>
-          <h1 className="text-4xl font-black text-white">English A1 → C2</h1>
+          <Badge variant="emerald" dot>{copy.englishTrack}</Badge>
+          <h1 className="text-4xl font-black text-white">{copy.englishTrack}</h1>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed">
             A complete, structured curriculum covering every CEFR level — from your very first words to
             near-native English mastery. Available in English, Tigrinya, and Amharic.
@@ -87,11 +93,11 @@ export default async function EnglishPage() {
                 </div>
 
                 <div className="flex items-center justify-between text-xs text-slate-500">
-                  <span>{lessonCount} lessons</span>
+                  <span>{lessonCount} {copy.lessons}</span>
                   <span className={`flex items-center gap-1.5 font-medium group-hover:gap-2.5 transition-all
                     ${info.color === "emerald" ? "text-emerald-400" : info.color === "amber" ? "text-amber-400" : "text-indigo-400"}
                   `}>
-                    Start <ArrowRight className="w-3.5 h-3.5" />
+                    {copy.start} <ArrowRight className="w-3.5 h-3.5" />
                   </span>
                 </div>
               </Link>

@@ -7,7 +7,38 @@
     "admin": "አስተዳዳሪ",
     "dashboard": "ዳሽቦርድ",
     "studentSignIn": "የተማሪ መግቢያ",
-    "search": "ፈልግ"
+    "search": "ፈልግ",
+    "language": "ቋንቋ",
+    "free": "ነጻ",
+    "start": "ጀምር",
+    "lessons": "ትምህርቶች",
+    "coursesTitle": "ሁሉም ኮርሶች",
+    "exploreCourses": "ኮርሶቻችንን ያስሱ",
+    "coursesDescription": "Full Stack Web Development እና እንግሊዝኛን ከጀማሪ እስከ ከፍተኛ ደረጃ ይማሩ።",
+    "fullStackDevelopment": "Full Stack ዌብ ልማት",
+    "englishTrack": "የእንግሊዝኛ ቋንቋ A1 → C2",
+    "backToCourses": "ወደ ኮርሶች ተመለስ",
+    "curriculum": "የትምህርት ስርዓት",
+    "allEnglishLevels": "ሁሉም የእንግሊዝኛ ደረጃዎች",
+    "previousLevel": "ያለፈው ደረጃ",
+    "nextLevel": "ቀጣዩ ደረጃ"
+    ,"modules": "ሞጁሎች"
+    ,"courseCurriculum": "የኮርስ ስርዓተ ትምህርት"
+    ,"lessonResources": "የትምህርት መሳሪያዎች"
+    ,"courseContents": "የኮርስ ይዘት"
+    ,"courseProgress": "የኮርስ እድገት"
+    ,"completedLessons": "ትምህርቶች ተጠናቀዋል"
+    ,"videoComingSoon": "ቪዲዮ በቅርቡ ይመጣል።"
+    ,"browserVideoError": "አሳሽዎ የቪዲዮ ማጫወትን አይደግፍም።"
+    ,"noLessons": "የታተሙ ትምህርቶች የሉም።"
+    ,"lessonsComingSoon": "ትምህርቶች በቅርቡ ይመጣሉ።"
+    ,"pageNotFound": "ገጹ አልተገኘም"
+    ,"backHome": "ወደ መነሻ ተመለስ"
+    ,"notifications": "ማሳወቂያዎች"
+    ,"close": "ዝጋ"
+    ,"caughtUp": "ሁሉንም አይተዋል።"
+    ,"notificationUpdates": "አዲስ የኮርስ ዝመናዎች እዚህ ይታያሉ።"
+    ,"allRead": "ሁሉም ማሳወቂያዎች ተነብበዋል"
   },
   "home": {
     "title": "Building the Mind with Joss",
@@ -21,6 +52,36 @@
     "startWithA1": "በ A1 ይጀምሩ",
     "whyTitle": "ለምን Building the Mind?",
     "readyTitle": "ለመማር ዝግጁ ነዎት?",
-    "exploreCourses": "ሁሉንም ኮርሶች ያስሱ"
+    "exploreCourses": "ሁሉንም ኮርሶች ያስሱ",
+    "professionalEducation": "የሙያ የመስመር ላይ ትምህርት — Joss",
+    "masterDescription": "Full Stack Web Development እና እንግሊዝኛ A1 → C2ን ይማሩ። በእንግሊዝኛ፣ ትግርኛ እና አማርኛ።",
+    "coursesCount": "ኮርሶች",
+    "lessonsCount": "ትምህርቶች",
+    "languagesCount": "ቋንቋዎች",
+    "designedForResults": "ቀላል፣ ውጤታማ እና ብዙ ቋንቋ ያለው ትምህርት።",
+    "multilingual": "ብዙ ቋንቋ",
+    "multilingualDescription": "ሁሉም ይዘት በእንግሊዝኛ፣ ትግርኛ እና አማርኛ ይገኛል።",
+    "videoLearning": "በቪዲዮ መማር",
+    "videoLearningDescription": "የቪዲዮ ትምህርቶች፣ PDF ማውረጃዎች፣ የድምጽ ልምምዶች እና ፈተናዎች።",
+    "structuredCurriculum": "የተደራጀ የትምህርት ስርዓት",
+    "structuredCurriculumDescription": "ግልጽ ሞጁሎች እና ትምህርቶች ከእድገት ክትትል ጋር።",
+    "readyDescription": "ዛሬ Building the Mind with Jossን ይቀላቀሉ እና በቋንቋዎ ይማሩ።"
+  },
+  "auth": {
+    "studentSignIn": "የተማሪ መግቢያ",
+    "signInDescription": "ትምህርቶችዎን ይቀጥሉ እና እድገትዎን ይጠብቁ።",
+    "newStudent": "አዲስ ተማሪ?",
+    "createAccount": "መለያ ይፍጠሩ",
+    "createAccountTitle": "የተማሪ መለያዎን ይፍጠሩ",
+    "registerDescription": "መማር ይጀምሩ እና የኮርስ እድገትዎን ያስቀምጡ።",
+    "alreadyRegistered": "አስቀድመው ተመዝግበዋል?",
+    "signIn": "ይግቡ"
+  },
+  "footer": {
+    "courses": "ኮርሶች",
+    "connect": "ያግኙን",
+    "privacy": "የግላዊነት ፖሊሲ",
+    "terms": "የአገልግሎት ውሎች",
+    "description": "በFull Stack Web Development እና በእንግሊዝኛ A1–C2 በእንግሊዝኛ፣ ትግርኛ እና አማርኛ ዓለም ደረጃ ትምህርት የሚሰጥ መድረክ።"
   }
 }

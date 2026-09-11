@@ -4,6 +4,9 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, PlayCircle, FileText, Volume2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
+import { defaultLocale, isLocale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/dictionaries";
 
 export const dynamic = "force-dynamic";
 
@@ -61,6 +64,9 @@ export default async function EnglishLevelPage({ params }: Props) {
   });
   if (!course) notFound();
 
+  const localeValue = (await cookies()).get("locale")?.value ?? defaultLocale;
+  const copy = getDictionary(isLocale(localeValue) ? localeValue : defaultLocale).common;
+
   // Prev / Next level
   const currentIndex = LEVEL_ORDER.indexOf(levelLower);
   const prevLevel = currentIndex > 0 ? LEVEL_ORDER[currentIndex - 1] : null;
@@ -74,7 +80,7 @@ export default async function EnglishLevelPage({ params }: Props) {
         {/* Back */}
         <Link href="/english" className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white transition">
           <ArrowLeft className="w-4 h-4" />
-          All English Levels
+          {copy.allEnglishLevels}
         </Link>
 
         {/* Header */}
@@ -94,7 +100,7 @@ export default async function EnglishLevelPage({ params }: Props) {
 
         {/* Curriculum */}
         <div className="space-y-5">
-          <h2 className="text-xl font-bold text-white">Curriculum</h2>
+          <h2 className="text-xl font-bold text-white">{copy.curriculum}</h2>
           {course.modules.map((mod, idx) => (
             <div key={mod.id.toString()} className="rounded-2xl bg-slate-900/60 border border-slate-800 overflow-hidden">
               <div className="px-6 py-4 bg-slate-900/80 border-b border-slate-800 flex items-center gap-3">
@@ -102,7 +108,7 @@ export default async function EnglishLevelPage({ params }: Props) {
                   {idx + 1}
                 </span>
                 <h3 className="font-semibold text-white">{mod.title}</h3>
-                <span className="ml-auto text-xs text-slate-500">{mod.lessons.length} lessons</span>
+                <span className="ml-auto text-xs text-slate-500">{mod.lessons.length} {copy.lessons}</span>
               </div>
               <ul className="divide-y divide-slate-800/50">
                 {mod.lessons.map((lesson, li) => {

@@ -22,6 +22,46 @@ body {
   overflow-x: hidden;
 }
 
+html.light {
+  color-scheme: light;
+  --background: #f4f7fb;
+  --foreground: #172033;
+  --card: rgba(255, 255, 255, 0.9);
+  --card-border: rgba(100, 116, 139, 0.22);
+}
+
+html.light body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+html.light [class*="bg-slate-950"] { background-color: #f4f7fb !important; }
+html.light [class*="bg-slate-900"] { background-color: #ffffff !important; }
+html.light [class*="bg-slate-800"] { background-color: #e8edf5 !important; }
+html.light [class*="bg-slate-700"] { background-color: #d8e0ec !important; }
+html.light [class*="text-white"] { color: #172033 !important; }
+html.light [class*="text-slate-100"],
+html.light [class*="text-slate-200"],
+html.light [class*="text-slate-300"] { color: #334155 !important; }
+html.light [class*="text-slate-400"] { color: #526176 !important; }
+html.light [class*="text-slate-500"],
+html.light [class*="text-slate-600"] { color: #64748b !important; }
+html.light [class*="border-slate-800"],
+html.light [class*="border-slate-700"] { border-color: #d5dce8 !important; }
+html.light [class*="divide-slate-800"] > :not(:last-child) { border-color: #e2e8f0 !important; }
+html.light input,
+html.light textarea,
+html.light select { background-color: #ffffff !important; color: #172033 !important; }
+html.light input::placeholder,
+html.light textarea::placeholder { color: #94a3b8 !important; }
+html.light .bg-indigo-600,
+html.light .bg-indigo-500 { color: #ffffff !important; }
+html.light .bg-indigo-600 [class*="text-white"],
+html.light .bg-indigo-500 [class*="text-white"] { color: #ffffff !important; }
+html.light ::-webkit-scrollbar-track { background: #e8edf5; }
+html.light ::-webkit-scrollbar-thumb { background: #b8c3d4; }
+html.light ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
 /* Glassmorphism Surface Utility */
 .glass-panel {
   background: rgba(15, 23, 42, 0.7);

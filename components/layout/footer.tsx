@@ -1,6 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import { GraduationCap, Globe2, Mail, Phone } from "lucide-react";
+import { cookies } from "next/headers";
+import { defaultLocale, isLocale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/dictionaries";
 
 const COURSE_LINKS = [
   { label: "Full Stack Development", href: "/courses/full-stack-web-development" },
@@ -14,7 +17,11 @@ const LEGAL_LINKS = [
   { label: "Terms of Service", href: "/terms" },
 ];
 
-export function Footer() {
+export async function Footer() {
+  const localeValue = (await cookies()).get("locale")?.value ?? defaultLocale;
+  const dictionary = getDictionary(isLocale(localeValue) ? localeValue : defaultLocale);
+  const copy = dictionary.footer;
+
   return (
     <footer className="border-t border-slate-800/80 bg-slate-950 text-slate-400">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
@@ -31,8 +38,7 @@ export function Footer() {
               </div>
             </Link>
             <p className="text-sm leading-relaxed text-slate-500 max-w-xs">
-              A premier online platform delivering world-class education in Full Stack Web
-              Development and the English language (A1–C2) in English, Tigrinya, and Amharic.
+              {copy.description}
             </p>
             <div className="flex items-center gap-2 text-xs text-slate-500">
               <Globe2 className="w-3.5 h-3.5" />
@@ -43,7 +49,7 @@ export function Footer() {
           {/* Courses Column */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold text-white uppercase tracking-wider">
-              Courses
+              {copy.courses}
             </h3>
             <ul className="space-y-2.5">
               {COURSE_LINKS.map((link) => (
@@ -62,7 +68,7 @@ export function Footer() {
           {/* Contact Column */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold text-white uppercase tracking-wider">
-              Connect
+              {copy.connect}
             </h3>
             <div className="space-y-2.5">
               <a
@@ -97,7 +103,7 @@ export function Footer() {
                 href={link.href}
                 className="text-xs text-slate-600 hover:text-slate-400 transition-colors"
               >
-                {link.label}
+                {link.href === "/privacy" ? copy.privacy : copy.terms}
               </Link>
             ))}
           </div>

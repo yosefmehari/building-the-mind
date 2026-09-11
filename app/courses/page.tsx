@@ -5,6 +5,8 @@ import { Code2, BookOpen, ArrowRight, PlayCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/lib/currencies";
 import type { Metadata } from "next";
+import { defaultLocale, isLocale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/dictionaries";
 
 export const dynamic = "force-dynamic";
 
@@ -32,6 +34,9 @@ export default async function CoursesPage() {
   const courses = await getCourses();
   const cookieStore = await cookies();
   const displayCurrency = cookieStore.get("preferred_currency")?.value ?? "USD";
+  const localeValue = cookieStore.get("locale")?.value ?? defaultLocale;
+  const dictionary = getDictionary(isLocale(localeValue) ? localeValue : defaultLocale);
+  const copy = dictionary.common;
 
   const fullStack = courses.filter((c) => !c.levels);
   const english = courses.filter((c) => c.levels);
@@ -41,10 +46,10 @@ export default async function CoursesPage() {
       <div className="max-w-6xl mx-auto space-y-14">
         {/* Header */}
         <div className="text-center space-y-3">
-          <Badge variant="indigo" dot>All Courses</Badge>
-          <h1 className="text-4xl font-black text-white">Explore Our Courses</h1>
+          <Badge variant="indigo" dot>{copy.coursesTitle}</Badge>
+          <h1 className="text-4xl font-black text-white">{copy.exploreCourses}</h1>
           <p className="text-slate-400 max-w-2xl mx-auto">
-            Everything you need to master Full Stack Web Development and English — from beginner to expert.
+            {copy.coursesDescription}
           </p>
         </div>
 
@@ -53,7 +58,7 @@ export default async function CoursesPage() {
           <section className="space-y-6">
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
               <Code2 className="w-5 h-5 text-indigo-400" />
-              Full Stack Web Development
+              {copy.fullStackDevelopment}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {fullStack.map((course) => {
@@ -70,7 +75,7 @@ export default async function CoursesPage() {
                         <Code2 className="w-6 h-6" />
                       </div>
                       <Badge variant={course.is_free ? "emerald" : "amber"} size="sm">
-                        {course.is_free ? "Free" : formatPrice(Number(course.price ?? 0), course.currency ?? "USD", displayCurrency)}
+                        {course.is_free ? copy.free : formatPrice(Number(course.price ?? 0), course.currency ?? "USD", displayCurrency)}
                       </Badge>
                     </div>
                     <div>
@@ -82,10 +87,10 @@ export default async function CoursesPage() {
                     <div className="flex items-center justify-between text-xs text-slate-500">
                       <span className="flex items-center gap-1">
                         <PlayCircle className="w-3.5 h-3.5" />
-                        {lessonCount} lessons
+                        {lessonCount} {copy.lessons}
                       </span>
                       <span className="flex items-center gap-2 text-indigo-400 font-medium group-hover:gap-3 transition-all">
-                        Start <ArrowRight className="w-3.5 h-3.5" />
+                        {copy.start} <ArrowRight className="w-3.5 h-3.5" />
                       </span>
                     </div>
                   </Link>
@@ -100,7 +105,7 @@ export default async function CoursesPage() {
           <section className="space-y-6">
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
               <BookOpen className="w-5 h-5 text-emerald-400" />
-              English Language A1 → C2
+              {copy.englishTrack}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {english.map((course) => {
@@ -135,10 +140,10 @@ export default async function CoursesPage() {
                     <div className="flex items-center justify-between text-xs text-slate-500">
                       <span className="flex items-center gap-1">
                         <PlayCircle className="w-3.5 h-3.5" />
-                        {lessonCount} lessons
+                        {lessonCount} {copy.lessons}
                       </span>
                       <span className="flex items-center gap-2 text-emerald-400 font-medium group-hover:gap-3 transition-all">
-                        Start <ArrowRight className="w-3.5 h-3.5" />
+                        {copy.start} <ArrowRight className="w-3.5 h-3.5" />
                       </span>
                     </div>
                   </Link>
