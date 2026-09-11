@@ -7,6 +7,8 @@ import { getSession } from "@/lib/auth/session";
 import { LessonProgress } from "@/components/courses/lesson-progress";
 import { QuizPlayer } from "@/components/courses/quiz-player";
 
+export const dynamic = "force-dynamic";
+
 interface Props {
   params: Promise<{ slug: string; lessonSlug: string }>;
 }

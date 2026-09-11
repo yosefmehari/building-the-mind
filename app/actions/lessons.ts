@@ -36,6 +36,11 @@ export async function createLesson(
     select: { position: true },
   });
 
+  const isFree = formData.get("isFree") !== "false";
+  const priceRaw = String(formData.get("price") ?? "").trim();
+  const price = !isFree && priceRaw ? parseFloat(priceRaw) : null;
+  const currency = String(formData.get("currency") ?? "USD").trim().toUpperCase() || "USD";
+
   await db.lesson.create({
     data: {
       module_id: moduleId,
@@ -43,6 +48,9 @@ export async function createLesson(
       slug,
       position: (lastLesson?.position ?? -1) + 1,
       published: false,
+      is_free: isFree,
+      price: price !== null && !isNaN(price) ? price : null,
+      currency,
     },
   });
 

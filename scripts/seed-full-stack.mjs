@@ -46,8 +46,20 @@ const curriculum = [
 ];
 
 try {
-  const course = await db.course.findUnique({ where: { slug: "full-stack-web-development" }, select: { id: true, title: true } });
-  if (!course) throw new Error("Full Stack course was not found.");
+  let course = await db.course.findUnique({ where: { slug: "full-stack-web-development" }, select: { id: true, title: true } });
+  if (!course) {
+    course = await db.course.create({
+      data: {
+        title: "Full Stack Web Development",
+        slug: "full-stack-web-development",
+        description: "Master modern web development from HTML/CSS to Next.js, PostgreSQL, and full production deployment.",
+        published: true,
+        featured: true,
+      },
+      select: { id: true, title: true },
+    });
+    console.log("Created Full Stack Web Development course");
+  }
 
   for (const [moduleIndex, moduleData] of curriculum.entries()) {
     let curriculumModule = await db.module.findFirst({ where: { course_id: course.id, title: moduleData.title }, select: { id: true } });

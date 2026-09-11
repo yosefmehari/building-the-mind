@@ -1,8 +1,12 @@
 import { db } from "@/lib/db";
 import Link from "next/link";
+import { cookies } from "next/headers";
 import { Code2, BookOpen, ArrowRight, PlayCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { formatPrice } from "@/lib/currencies";
 import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "All Courses",
@@ -26,6 +30,8 @@ async function getCourses() {
 
 export default async function CoursesPage() {
   const courses = await getCourses();
+  const cookieStore = await cookies();
+  const displayCurrency = cookieStore.get("preferred_currency")?.value ?? "USD";
 
   const fullStack = courses.filter((c) => !c.levels);
   const english = courses.filter((c) => c.levels);
@@ -59,8 +65,13 @@ export default async function CoursesPage() {
                     id={`course-card-${course.slug}`}
                     className="group p-6 rounded-2xl bg-slate-900/65 border border-slate-800 hover:border-indigo-500/50 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 block space-y-4"
                   >
-                    <div className="h-12 w-12 rounded-xl bg-indigo-600/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
-                      <Code2 className="w-6 h-6" />
+                    <div className="flex items-center justify-between">
+                      <div className="h-12 w-12 rounded-xl bg-indigo-600/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+                        <Code2 className="w-6 h-6" />
+                      </div>
+                      <Badge variant={course.is_free ? "emerald" : "amber"} size="sm">
+                        {course.is_free ? "Free" : formatPrice(Number(course.price ?? 0), course.currency ?? "USD", displayCurrency)}
+                      </Badge>
                     </div>
                     <div>
                       <h3 className="font-bold text-white text-base group-hover:text-indigo-300 transition">{course.title}</h3>

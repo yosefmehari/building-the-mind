@@ -4,6 +4,8 @@ import { BookOpen, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import type { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "English Courses A1 to C2",
   description:

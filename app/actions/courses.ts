@@ -30,12 +30,20 @@ export async function createCourse(
   const existingCourse = await db.course.findUnique({ where: { slug } });
   if (existingCourse) return { error: "A course with this slug already exists." };
 
+  const isFree = formData.get("isFree") !== "false";
+  const priceRaw = String(formData.get("price") ?? "").trim();
+  const price = !isFree && priceRaw ? parseFloat(priceRaw) : null;
+  const currency = String(formData.get("currency") ?? "USD").trim().toUpperCase() || "USD";
+
   await db.course.create({
     data: {
       title,
       slug,
       description: description || null,
       published: false,
+      is_free: isFree,
+      price: price !== null && !isNaN(price) ? price : null,
+      currency,
     },
   });
 

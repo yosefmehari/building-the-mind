@@ -33,6 +33,9 @@ model Course {
   level_id            BigInt?
   published           Boolean               @default(false)
   featured            Boolean               @default(false)
+  is_free             Boolean               @default(true)
+  price               Decimal?              @db.Decimal(10, 2)
+  currency            String                @default("USD") @db.VarChar(10)
   created_at          DateTime              @default(now()) @db.Timestamp(6)
   updated_at          DateTime              @default(now()) @db.Timestamp(6)
   course_translations course_translations[]
@@ -45,6 +48,7 @@ model Course {
   @@index([featured], map: "idx_courses_featured")
   @@index([level_id], map: "idx_courses_level")
   @@index([published], map: "idx_courses_published")
+  @@index([is_free], map: "idx_courses_is_free")
   @@map("courses")
 }
 
@@ -73,6 +77,9 @@ model Lesson {
   duration_minutes    Int?                  @default(0)
   position            Int                   @default(0)
   published           Boolean               @default(false)
+  is_free             Boolean               @default(true)
+  price               Decimal?              @db.Decimal(10, 2)
+  currency            String                @default("USD") @db.VarChar(10)
   created_at          DateTime              @default(now()) @db.Timestamp(6)
   updated_at          DateTime              @default(now()) @db.Timestamp(6)
   bookmarks           bookmarks[]
@@ -86,6 +93,7 @@ model Lesson {
   @@unique([module_id, slug])
   @@index([module_id], map: "idx_lessons_module")
   @@index([published], map: "idx_lessons_published")
+  @@index([is_free], map: "idx_lessons_is_free")
   @@map("lessons")
 }
 

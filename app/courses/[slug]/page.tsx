@@ -1,9 +1,13 @@
 import { db } from "@/lib/db";
 import Link from "next/link";
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { PlayCircle, FileText, Volume2, ArrowLeft } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { formatPrice } from "@/lib/currencies";
 import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -43,6 +47,9 @@ export default async function CourseDetailPage({ params }: Props) {
 
   if (!course) notFound();
 
+  const cookieStore = await cookies();
+  const displayCurrency = cookieStore.get("preferred_currency")?.value ?? "USD";
+
   const totalLessons = course.modules.reduce((s, m) => s + m.lessons.length, 0);
 
   return (
@@ -58,7 +65,12 @@ export default async function CourseDetailPage({ params }: Props) {
         <div className="p-8 rounded-2xl bg-linear-to-r from-slate-900 to-indigo-950/30 border border-slate-800 space-y-4">
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div className="space-y-2">
-              {course.levels && <Badge variant="indigo" size="md">{course.levels.name}</Badge>}
+              <div className="flex items-center gap-2">
+                {course.levels && <Badge variant="indigo" size="md">{course.levels.name}</Badge>}
+                <Badge variant={course.is_free ? "emerald" : "amber"} size="md">
+                  {course.is_free ? "Free Course" : formatPrice(Number(course.price ?? 0), course.currency ?? "USD", displayCurrency)}
+                </Badge>
+              </div>
               <h1 className="text-3xl font-black text-white">{course.title}</h1>
               {course.description && (
                 <p className="text-slate-400 max-w-2xl">{course.description}</p>

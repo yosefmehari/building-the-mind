@@ -1,6 +1,8 @@
 import { db } from "@/lib/db";
 import { notFound, redirect } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 interface Props {
   params: Promise<{ level: string; lessonSlug: string }>;
 }

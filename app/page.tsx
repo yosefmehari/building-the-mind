@@ -16,6 +16,8 @@ import { cookies } from "next/headers";
 import { defaultLocale, isLocale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 
+export const dynamic = "force-dynamic";
+
 // Fetch course stats from the DB
 async function getCourseStats() {
   const courses = await db.course.findMany({

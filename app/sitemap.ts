@@ -3,19 +3,30 @@ import { db } from "@/lib/db";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
-  const courses = await db.course.findMany({
-    where: { published: true },
-    select: {
-      slug: true,
-      updated_at: true,
-      levels: { select: { name: true } },
-      modules: {
-        select: {
-          lessons: { where: { published: true }, select: { slug: true, updated_at: true } },
+  let courses: Array<{
+    slug: string;
+    updated_at: Date;
+    levels: { name: string } | null;
+    modules: Array<{ lessons: Array<{ slug: string; updated_at: Date }> }>;
+  }> = [];
+
+  try {
+    courses = await db.course.findMany({
+      where: { published: true },
+      select: {
+        slug: true,
+        updated_at: true,
+        levels: { select: { name: true } },
+        modules: {
+          select: {
+            lessons: { where: { published: true }, select: { slug: true, updated_at: true } },
+          },
         },
       },
-    },
-  });
+    });
+  } catch {
+    courses = [];
+  }
 
   const entries: MetadataRoute.Sitemap = [
     { url: baseUrl, changeFrequency: "weekly", priority: 1 },

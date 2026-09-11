@@ -5,6 +5,8 @@ import { ArrowLeft, ArrowRight, PlayCircle, FileText, Volume2 } from "lucide-rea
 import { Badge } from "@/components/ui/badge";
 import type { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 interface Props {
   params: Promise<{ level: string }>;
 }
