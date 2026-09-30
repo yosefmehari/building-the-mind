@@ -17,17 +17,22 @@ export const metadata: Metadata = {
 };
 
 async function getCourses() {
-  return db.course.findMany({
-    where: { published: true },
-    include: {
-      course_categories: true,
-      levels: true,
-      modules: {
-        include: { lessons: { select: { id: true } } },
+  try {
+    return await db.course.findMany({
+      where: { published: true },
+      include: {
+        course_categories: true,
+        levels: true,
+        modules: {
+          include: { lessons: { select: { id: true } } },
+        },
       },
-    },
-    orderBy: { id: "asc" },
-  });
+      orderBy: { id: "asc" },
+    });
+  } catch (error) {
+    console.error("Failed to fetch courses:", error);
+    return [];
+  }
 }
 
 export default async function CoursesPage() {

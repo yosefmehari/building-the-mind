@@ -21,32 +21,42 @@ export const dynamic = "force-dynamic";
 
 // Fetch course stats from the DB
 async function getCourseStats() {
-  const courses = await db.course.findMany({
-    where: { published: true },
-    include: { modules: { include: { lessons: true } } },
-  });
-  const totalLessons = courses.reduce(
-    (sum, c) => sum + c.modules.reduce((s, m) => s + m.lessons.length, 0),
-    0
-  );
-  return { courseCount: courses.length, lessonCount: totalLessons };
+  try {
+    const courses = await db.course.findMany({
+      where: { published: true },
+      include: { modules: { include: { lessons: true } } },
+    });
+    const totalLessons = courses.reduce(
+      (sum, c) => sum + c.modules.reduce((s, m) => s + m.lessons.length, 0),
+      0
+    );
+    return { courseCount: courses.length, lessonCount: totalLessons };
+  } catch (error) {
+    console.error("Failed to load course stats:", error);
+    return { courseCount: 0, lessonCount: 0 };
+  }
 }
 
 async function getFeaturedPreviewCourse() {
-  return db.course.findFirst({
-    where: {
-      published: true,
-      video_url: { not: null },
-    },
-    select: {
-      id: true,
-      title: true,
-      slug: true,
-      video_url: true,
-      thumbnail_url: true,
-    },
-    orderBy: { updated_at: "desc" },
-  });
+  try {
+    return await db.course.findFirst({
+      where: {
+        published: true,
+        video_url: { not: null },
+      },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        video_url: true,
+        thumbnail_url: true,
+      },
+      orderBy: { updated_at: "desc" },
+    });
+  } catch (error) {
+    console.error("Failed to load featured preview course:", error);
+    return null;
+  }
 }
 
 const ENGLISH_LEVELS = [

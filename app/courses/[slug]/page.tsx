@@ -31,42 +31,69 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function CourseDetailPage({ params }: Props) {
   const { slug } = await params;
 
-  const [course, session] = await Promise.all([
-    db.course.findUnique({
-      where: { slug },
-      include: {
-        modules: {
-          orderBy: { position: "asc" },
-          include: {
-            lessons: {
-              where: { published: true },
-              orderBy: { position: "asc" },
-              include: {
-                videos: { select: { id: true, duration_seconds: true } },
-                lesson_files: { select: { id: true, file_type: true } },
+  type CourseWithDetails = NonNullable<Awaited<ReturnType<typeof db.course.findUnique<{
+    where: { slug: string };
+    include: {
+      modules: {
+        orderBy: { position: "asc" };
+        include: {
+          lessons: {
+            where: { published: boolean };
+            orderBy: { position: "asc" };
+            include: {
+              videos: { select: { id: true; duration_seconds: true } };
+              lesson_files: { select: { id: true; file_type: true } };
+            };
+          };
+        };
+      };
+      levels: true;
+    };
+  }>>>>;
+
+  let course: CourseWithDetails | null = null;
+  let session = null;
+  let enrollment = null;
+
+  try {
+    [course, session] = await Promise.all([
+      db.course.findUnique({
+        where: { slug },
+        include: {
+          modules: {
+            orderBy: { position: "asc" },
+            include: {
+              lessons: {
+                where: { published: true },
+                orderBy: { position: "asc" },
+                include: {
+                  videos: { select: { id: true, duration_seconds: true } },
+                  lesson_files: { select: { id: true, file_type: true } },
+                },
               },
             },
           },
+          levels: true,
         },
-        levels: true,
-      },
-    }),
-    getSession(),
-  ]);
+      }),
+      getSession(),
+    ]);
 
-  if (!course) notFound();
-
-  // Check enrollment
-  const enrollment = session
-    ? await db.enrollment.findUnique({
+    if (session && course) {
+      enrollment = await db.enrollment.findUnique({
         where: {
           user_id_course_id: {
             user_id: BigInt(session.userId),
             course_id: course.id,
           },
         },
-      })
-    : null;
+      });
+    }
+  } catch (error) {
+    console.error("Failed to load course details:", error);
+  }
+
+  if (!course) notFound();
 
   const isEnrolled = Boolean(enrollment) || (Boolean(session) && session?.role.toLowerCase() === "admin");
   const signedIn = Boolean(session);

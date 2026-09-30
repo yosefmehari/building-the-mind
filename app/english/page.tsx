@@ -25,14 +25,19 @@ const LEVEL_DESCRIPTIONS: Record<string, { label: string; desc: string; color: "
 };
 
 async function getEnglishCourses() {
-  return db.course.findMany({
-    where: { published: true, level_id: { not: null } },
-    include: {
-      levels: true,
-      modules: { include: { lessons: { select: { id: true } } } },
-    },
-    orderBy: { level_id: "asc" },
-  });
+  try {
+    return await db.course.findMany({
+      where: { published: true, level_id: { not: null } },
+      include: {
+        levels: true,
+        modules: { include: { lessons: { select: { id: true } } } },
+      },
+      orderBy: { level_id: "asc" },
+    });
+  } catch (error) {
+    console.error("Failed to fetch English courses:", error);
+    return [];
+  }
 }
 
 export default async function EnglishPage() {
