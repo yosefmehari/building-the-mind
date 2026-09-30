@@ -8,8 +8,41 @@ import { getDictionary } from "@/lib/i18n/dictionaries";
 
 export const metadata: Metadata = { title: "Create Student Account", robots: { index: false, follow: false } };
 
-export default async function RegisterPage() {
+interface Props {
+  searchParams: Promise<{ redirectTo?: string }>;
+}
+
+export default async function RegisterPage({ searchParams }: Props) {
+  const { redirectTo } = await searchParams;
   const localeValue = (await cookies()).get("locale")?.value ?? defaultLocale;
   const copy = getDictionary(isLocale(localeValue) ? localeValue : defaultLocale).auth;
-  return <main className="flex flex-1 items-center justify-center px-4 py-16"><section className="w-full max-w-md space-y-7 rounded-2xl border border-slate-800 bg-slate-900/70 p-8 shadow-2xl"><div className="space-y-3 text-center"><div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl border border-indigo-500/20 bg-indigo-500/10 text-indigo-400"><GraduationCap className="h-6 w-6" /></div><h1 className="text-2xl font-black text-white">{copy.createAccountTitle}</h1><p className="text-sm text-slate-400">{copy.registerDescription}</p></div><StudentRegisterForm /><p className="text-center text-sm text-slate-500">{copy.alreadyRegistered} <Link href="/login" className="text-indigo-400 hover:text-indigo-300">{copy.signIn}</Link></p></section></main>;
+
+  const loginHref = redirectTo
+    ? `/login?redirectTo=${encodeURIComponent(redirectTo)}`
+    : "/login";
+
+  return (
+    <main className="flex flex-1 items-center justify-center px-4 py-16">
+      <section className="w-full max-w-md space-y-7 rounded-2xl border border-slate-800 bg-slate-900/70 p-8 shadow-2xl">
+        <div className="space-y-3 text-center">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl border border-indigo-500/20 bg-indigo-500/10 text-indigo-400">
+            <GraduationCap className="h-6 w-6" />
+          </div>
+          <h1 className="text-2xl font-black text-white">{copy.createAccountTitle}</h1>
+          <p className="text-sm text-slate-400">
+            {redirectTo?.includes("/courses")
+              ? "Create your student account to get this course and start learning."
+              : copy.registerDescription}
+          </p>
+        </div>
+        <StudentRegisterForm redirectTo={redirectTo} />
+        <p className="text-center text-sm text-slate-500">
+          {copy.alreadyRegistered}{" "}
+          <Link href={loginHref} className="text-indigo-400 hover:text-indigo-300">
+            {copy.signIn}
+          </Link>
+        </p>
+      </section>
+    </main>
+  );
 }

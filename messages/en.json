@@ -39,6 +39,14 @@
     ,"caughtUp": "You are all caught up."
     ,"notificationUpdates": "New course updates will appear here."
     ,"allRead": "All notifications are read"
+    ,"courseHighlights": "Course Highlights"
+    ,"whatYouWillLearnInCourse": "What you'll learn in this course"
+    ,"signInToGetCourse": "Sign in to Get Course"
+    ,"signInToUnlock": "Sign in to unlock"
+    ,"getCourse": "Get Course"
+    ,"enrolled": "Enrolled"
+    ,"continueLearning": "Continue Learning"
+    ,"courseLockedNotice": "Course lessons are locked. Sign in to get this course and unlock all lessons and materials."
   },
   "home": {
     "title": "Building the Mind with Joss",

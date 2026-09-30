@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, Film, PlayCircle, Plus } from "lucide-react";
+import { ArrowLeft, Film, Eye, Clock } from "lucide-react";
 import { requireAdmin } from "@/lib/auth/session";
 import { db } from "@/lib/db";
-import { VideoForm } from "@/components/admin/video-form";
+import { VideoUploadManager } from "@/components/admin/video-upload-manager";
 
 export const metadata: Metadata = {
   title: "Manage Videos",
@@ -12,28 +12,147 @@ export const metadata: Metadata = {
 
 export default async function AdminVideosPage() {
   await requireAdmin();
-  const [lessons, videos] = await Promise.all([
-    db.lesson.findMany({ orderBy: [{ module_id: "asc" }, { position: "asc" }], include: { modules: { select: { title: true, courses: { select: { title: true } } } } } }),
-    db.videos.findMany({ orderBy: { updated_at: "desc" }, include: { lessons: { select: { title: true, modules: { select: { title: true, courses: { select: { title: true } } } } } } } }),
+
+  const [coursesData, videosData] = await Promise.all([
+    db.course.findMany({
+      orderBy: { id: "asc" },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        video_url: true,
+        modules: {
+          orderBy: { position: "asc" },
+          select: {
+            id: true,
+            title: true,
+            position: true,
+            lessons: {
+              orderBy: { position: "asc" },
+              select: {
+                id: true,
+                title: true,
+                slug: true,
+                position: true,
+              },
+            },
+          },
+        },
+      },
+    }),
+    db.videos.findMany({
+      orderBy: { updated_at: "desc" },
+      include: {
+        lessons: {
+          select: {
+            id: true,
+            title: true,
+            slug: true,
+            modules: {
+              select: {
+                id: true,
+                title: true,
+                courses: {
+                  select: {
+                    id: true,
+                    title: true,
+                    slug: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    }),
   ]);
+
+  const courses = coursesData.map((course) => ({
+    id: course.id.toString(),
+    title: course.title,
+    slug: course.slug,
+    video_url: course.video_url,
+    modules: course.modules.map((m) => ({
+      id: m.id.toString(),
+      title: m.title,
+      position: m.position,
+      lessons: m.lessons.map((l) => ({
+        id: l.id.toString(),
+        title: l.title,
+        slug: l.slug,
+        position: l.position,
+      })),
+    })),
+  }));
+
+  const videos = videosData.map((v) => ({
+    id: v.id.toString(),
+    title: v.title,
+    description: v.description,
+    video_url: v.video_url,
+    thumbnail_url: v.thumbnail_url,
+    duration_seconds: v.duration_seconds,
+    file_size: v.file_size ? v.file_size.toString() : null,
+    storage_provider: v.storage_provider,
+    published: v.published,
+    created_at: v.created_at.toISOString(),
+    lesson: {
+      id: v.lessons.id.toString(),
+      title: v.lessons.title,
+      slug: v.lessons.slug,
+      moduleTitle: v.lessons.modules.title,
+      courseTitle: v.lessons.modules.courses.title,
+      courseSlug: v.lessons.modules.courses.slug,
+    },
+  }));
+
+  const publishedCount = videos.filter((v) => v.published).length;
+  const totalDurationSeconds = videos.reduce((acc, v) => acc + (v.duration_seconds ?? 0), 0);
+  const totalHours = (totalDurationSeconds / 3600).toFixed(1);
 
   return (
     <main className="flex-1 px-4 py-14">
       <div className="mx-auto max-w-6xl space-y-8">
-        <Link href="/admin" className="inline-flex items-center gap-2 text-sm text-slate-400 transition hover:text-white"><ArrowLeft className="h-4 w-4" />Dashboard</Link>
+        <Link
+          href="/admin"
+          className="inline-flex items-center gap-2 text-sm text-slate-400 transition hover:text-white"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Dashboard
+        </Link>
+
+        {/* Page Header with Stats */}
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-          <div><p className="text-xs font-semibold uppercase tracking-[0.18em] text-sky-400">Media management</p><h1 className="mt-1 text-3xl font-black text-white">Videos</h1><p className="mt-2 text-sm text-slate-400">Attach hosted video content to lessons. Upload-provider integration comes next.</p></div>
-          <span className="inline-flex w-fit items-center gap-2 rounded-full border border-slate-800 bg-slate-900/60 px-3 py-1.5 text-xs text-slate-400"><Film className="h-3.5 w-3.5 text-sky-400" />{videos.length} total</span>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-sky-400">
+              Media & Video Streaming
+            </p>
+            <h1 className="mt-1 text-3xl font-black text-white">Course & Module Videos</h1>
+            <p className="mt-2 text-sm text-slate-400">
+              Upload video lessons directly from your device organized by course and module.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2.5 flex-wrap">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-800 bg-slate-900/60 px-3 py-1.5 text-xs text-slate-300">
+              <Film className="h-3.5 w-3.5 text-sky-400" />
+              {videos.length} videos
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1.5 text-xs text-emerald-300">
+              <Eye className="h-3.5 w-3.5 text-emerald-400" />
+              {publishedCount} published
+            </span>
+            {totalDurationSeconds > 0 && (
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-800 bg-slate-900/60 px-3 py-1.5 text-xs text-slate-400">
+                <Clock className="h-3.5 w-3.5 text-indigo-400" />
+                {totalHours} hrs content
+              </span>
+            )}
+          </div>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-          <section className="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60">
-            <div className="flex items-center gap-3 border-b border-slate-800 px-6 py-4"><PlayCircle className="h-5 w-5 text-sky-400" /><div><h2 className="font-bold text-white">Video library</h2><p className="text-xs text-slate-500">Hosted video metadata and publication status</p></div></div>
-            {videos.length > 0 ? <div className="divide-y divide-slate-800/80">{videos.map((video) => <div key={video.id.toString()} className="flex items-center gap-4 px-6 py-4"><div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-500/10 text-sky-400"><Film className="h-4 w-4" /></div><div className="min-w-0 flex-1"><h3 className="truncate text-sm font-medium text-white">{video.title}</h3><p className="mt-1 truncate text-xs text-slate-500">{video.lessons.modules.courses.title} / {video.lessons.title} · {video.duration_seconds ?? 0}s</p></div><span className={`rounded-full px-2.5 py-1 text-xs font-medium ${video.published ? "bg-emerald-500/10 text-emerald-300" : "bg-slate-800 text-slate-400"}`}>{video.published ? "Published" : "Draft"}</span></div>)}</div> : <div className="px-6 py-14 text-center"><Plus className="mx-auto h-7 w-7 text-slate-600" /><p className="mt-3 text-sm text-slate-500">No videos have been attached yet.</p></div>}
-          </section>
-
-          <section className="h-fit rounded-2xl border border-slate-800 bg-slate-900/60 p-6"><div className="mb-5"><h2 className="font-bold text-white">Attach a video</h2><p className="mt-1 text-xs text-slate-500">Use a private or signed URL from your storage provider.</p></div><VideoForm lessons={lessons.map((lesson) => ({ id: lesson.id.toString(), label: `${lesson.modules.courses.title} / ${lesson.modules.title} / ${lesson.title}` }))} /></section>
-        </div>
+        {/* Video Upload Manager Component */}
+        <VideoUploadManager courses={courses} videos={videos} />
       </div>
     </main>
   );

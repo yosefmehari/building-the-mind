@@ -25,6 +25,10 @@ export function VideoForm({ lessons }: { lessons: LessonOption[] }) {
       <Input label="Upload video" name="video" type="file" accept="video/mp4,video/webm,video/quicktime" />
       <Input label="Thumbnail URL (optional)" name="thumbnailUrl" type="url" placeholder="https://cdn.example.com/thumbnail.jpg" />
       <Input label="Duration in seconds" name="durationSeconds" type="number" min={0} max={86400} defaultValue={0} required helperText="Use 0 when the hosted provider does not expose duration yet." />
+      <label className="flex items-center gap-2 text-xs font-medium text-slate-300 cursor-pointer">
+        <input type="checkbox" name="published" value="true" defaultChecked className="rounded border-slate-700 text-indigo-600 focus:ring-indigo-500" />
+        <span>Publish immediately to students</span>
+      </label>
       {state?.error && <p role="alert" className="rounded-xl border border-rose-500/20 bg-rose-500/10 px-3 py-2 text-sm text-rose-300">{state.error}</p>}
       {state?.success && <p role="status" className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-300">{state.success}</p>}
       <Button type="submit" disabled={pending || lessons.length === 0} isLoading={pending} leftIcon={pending ? undefined : <Plus className="h-4 w-4" />}>Attach draft video</Button>

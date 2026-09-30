@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { ArrowLeft, ArrowRight, CheckCircle2, Download, FileText, PlayCircle, Volume2 } from "lucide-react";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/auth/session";
@@ -21,6 +21,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function LessonPage({ params }: Props) {
   const { slug, lessonSlug } = await params;
+
+  const session = await getSession();
+  if (!session) {
+    redirect(`/login?redirectTo=${encodeURIComponent(`/courses/${slug}/lessons/${lessonSlug}`)}`);
+  }
+
   const lesson = await db.lesson.findFirst({
     where: { slug: lessonSlug, published: true, modules: { courses: { slug } } },
     include: {
@@ -44,6 +50,7 @@ export default async function LessonPage({ params }: Props) {
   const course = await db.course.findUnique({
     where: { slug },
     select: {
+      id: true,
       title: true,
       slug: true,
       modules: {
@@ -54,11 +61,26 @@ export default async function LessonPage({ params }: Props) {
   });
   if (!course) notFound();
 
+  if (session.role.toLowerCase() !== "admin") {
+    await db.enrollment.upsert({
+      where: {
+        user_id_course_id: {
+          user_id: BigInt(session.userId),
+          course_id: course.id,
+        },
+      },
+      create: {
+        user_id: BigInt(session.userId),
+        course_id: course.id,
+      },
+      update: {},
+    });
+  }
+
   const allLessons = course.modules.flatMap((module) => module.lessons.map((item) => ({ ...item, moduleTitle: module.title })));
   const currentIndex = allLessons.findIndex((item) => item.slug === lesson.slug);
   const previousLesson = currentIndex > 0 ? allLessons[currentIndex - 1] : null;
   const nextLesson = currentIndex >= 0 && currentIndex < allLessons.length - 1 ? allLessons[currentIndex + 1] : null;
-  const session = await getSession();
   const progressRecords = session
     ? await db.student_progress.findMany({
         where: { user_id: BigInt(session.userId), lesson_id: { in: allLessons.map((item) => item.id) }, completed: true },

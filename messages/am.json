@@ -39,6 +39,14 @@
     ,"caughtUp": "ሁሉንም አይተዋል።"
     ,"notificationUpdates": "አዲስ የኮርስ ዝመናዎች እዚህ ይታያሉ።"
     ,"allRead": "ሁሉም ማሳወቂያዎች ተነብበዋል"
+    ,"courseHighlights": "ዋና ዋና የኮርስ ነጥቦች"
+    ,"whatYouWillLearnInCourse": "በዚህ ኮርስ ምን ይማራሉ"
+    ,"signInToGetCourse": "ኮርሱን ለመውሰድ ይግቡ"
+    ,"signInToUnlock": "ለመክፈት ይግቡ"
+    ,"getCourse": "ኮርሱን ውሰድ"
+    ,"enrolled": "ተመዝግበዋል"
+    ,"continueLearning": "ትምህርቱን ይቀጥሉ"
+    ,"courseLockedNotice": "ትምህርቶች ተቆልፈዋል። ሁሉንም ትምህርቶች ለመክፈት ይግቡ።"
   },
   "home": {
     "title": "Building the Mind with Joss",

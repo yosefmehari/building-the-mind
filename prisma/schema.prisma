@@ -28,7 +28,9 @@ model Course {
   title               String                @db.VarChar(255)
   slug                String                @unique @db.VarChar(255)
   description         String?
+  highlights          String?
   thumbnail_url       String?
+  video_url           String?
   category_id         BigInt?
   level_id            BigInt?
   published           Boolean               @default(false)

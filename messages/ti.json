@@ -39,6 +39,14 @@
     ,"caughtUp": "ኩሉ ሓበሬታ ኣንቢብካዮ ኢኻ።"
     ,"notificationUpdates": "ሓደሽቲ ዜናታት ትምህርቲ ኣብዚ ክርአዩ እዮም።"
     ,"allRead": "ኩሎም መልእኽትታት ተነቢቦም"
+    ,"courseHighlights": "ቀንዲ ነጥብታት ትምህርቲ"
+    ,"whatYouWillLearnInCourse": "ኣብዚ ኮርስ እንታይ ክትመሃር ኢኻ"
+    ,"signInToGetCourse": "ትምህርቲ ንምውሳድ እቶ"
+    ,"signInToUnlock": "ንምኽፋት እቶ"
+    ,"getCourse": "ትምህርቲ ውሰድ"
+    ,"enrolled": "ተመዝጊብካ ኣለኻ"
+    ,"continueLearning": "ትምህርቲ ቀጽል"
+    ,"courseLockedNotice": "ትምህርቲታት ተዓጽዮም ኣለዉ። ኩሎም ትምህርቲታት ንምኽፋት እቶ።"
   },
   "home": {
     "title": "Building the Mind with Joss",

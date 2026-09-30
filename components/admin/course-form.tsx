@@ -15,7 +15,21 @@ export function CourseForm() {
       <Input label="URL slug" name="slug" placeholder="full-stack" pattern="[a-z0-9]+(?:-[a-z0-9]+)*" required helperText="Lowercase words separated by hyphens." />
       <div className="space-y-1.5">
         <label htmlFor="description" className="block text-xs font-medium text-slate-300">Description</label>
-        <textarea id="description" name="description" rows={4} placeholder="What will students learn?" className="w-full resize-y rounded-xl border border-slate-800 bg-slate-900/80 px-3.5 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20" />
+        <textarea id="description" name="description" rows={3} placeholder="What will students learn?" className="w-full resize-y rounded-xl border border-slate-800 bg-slate-900/80 px-3.5 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20" />
+      </div>
+
+      <div className="space-y-1.5">
+        <label htmlFor="highlights" className="block text-xs font-medium text-slate-300">
+          Course Highlights (shown before sign in)
+        </label>
+        <textarea
+          id="highlights"
+          name="highlights"
+          rows={4}
+          placeholder={"- Master full-stack web development\n- Hands-on Next.js & PostgreSQL projects\n- Interactive quizzes and assessments"}
+          className="w-full resize-y rounded-xl border border-slate-800 bg-slate-900/80 px-3.5 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+        />
+        <p className="text-[11px] text-slate-500">Put one highlight per line. Unregistered students see these highlights.</p>
       </div>
 
       <div className="rounded-xl border border-slate-800 bg-slate-950/40 p-3.5 space-y-3">

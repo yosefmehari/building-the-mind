@@ -9,6 +9,7 @@ import {
   PlayCircle,
   Star,
   Globe2,
+  Film,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -31,6 +32,23 @@ async function getCourseStats() {
   return { courseCount: courses.length, lessonCount: totalLessons };
 }
 
+async function getFeaturedPreviewCourse() {
+  return db.course.findFirst({
+    where: {
+      published: true,
+      video_url: { not: null },
+    },
+    select: {
+      id: true,
+      title: true,
+      slug: true,
+      video_url: true,
+      thumbnail_url: true,
+    },
+    orderBy: { updated_at: "desc" },
+  });
+}
+
 const ENGLISH_LEVELS = [
   { code: "A1", href: "/english/a1", desc: "Complete Beginner", color: "emerald" },
   { code: "A2", href: "/english/a2", desc: "Elementary", color: "emerald" },
@@ -41,7 +59,10 @@ const ENGLISH_LEVELS = [
 ] as const;
 
 export default async function Home() {
-  const { courseCount, lessonCount } = await getCourseStats();
+  const [{ courseCount, lessonCount }, featuredCourse] = await Promise.all([
+    getCourseStats(),
+    getFeaturedPreviewCourse(),
+  ]);
   const localeValue = (await cookies()).get("locale")?.value ?? defaultLocale;
   const dictionary = getDictionary(isLocale(localeValue) ? localeValue : defaultLocale);
   const homeCopy = dictionary.home;
@@ -118,6 +139,42 @@ export default async function Home() {
               <strong className="text-white">3</strong> {homeCopy.languagesCount}
             </span>
           </div>
+
+          {/* Featured Course Title Video Preview */}
+          {featuredCourse?.video_url && (
+            <div className="pt-4 text-left max-w-2xl mx-auto w-full">
+              <div className="rounded-2xl border border-indigo-500/25 bg-slate-900/80 p-4 shadow-2xl backdrop-blur-xs space-y-3">
+                <div className="flex items-center justify-between flex-wrap gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400">
+                      <Film className="h-4 w-4" />
+                    </span>
+                    <div>
+                      <p className="text-xs font-bold text-white">Featured Course Trailer</p>
+                      <p className="text-[11px] text-slate-400">{featuredCourse.title}</p>
+                    </div>
+                  </div>
+                  <Link
+                    href={`/courses/${featuredCourse.slug}`}
+                    className="inline-flex items-center gap-1 text-xs font-medium text-indigo-300 hover:text-indigo-200 transition"
+                  >
+                    View course & highlights <ArrowRight className="h-3 w-3" />
+                  </Link>
+                </div>
+                <div className="overflow-hidden rounded-xl bg-black aspect-video w-full border border-slate-800 shadow-inner flex items-center justify-center">
+                  <video
+                    src={featuredCourse.video_url}
+                    poster={featuredCourse.thumbnail_url ?? undefined}
+                    controls
+                    preload="metadata"
+                    className="w-full h-full object-contain"
+                  >
+                    Your browser does not support HTML5 video playback.
+                  </video>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 

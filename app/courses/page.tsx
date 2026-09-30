@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import Link from "next/link";
 import { cookies } from "next/headers";
-import { Code2, BookOpen, ArrowRight, PlayCircle } from "lucide-react";
+import { Code2, BookOpen, ArrowRight, PlayCircle, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/lib/currencies";
 import type { Metadata } from "next";
@@ -83,6 +83,12 @@ export default async function CoursesPage() {
                       {course.description && (
                         <p className="text-sm text-slate-400 mt-1 line-clamp-2">{course.description}</p>
                       )}
+                      {course.highlights && (
+                        <p className="mt-2.5 flex items-center gap-1.5 text-xs text-indigo-400/90 font-medium">
+                          <Sparkles className="w-3.5 h-3.5" />
+                          <span>Course Highlights Preview</span>
+                        </p>
+                      )}
                     </div>
                     <div className="flex items-center justify-between text-xs text-slate-500">
                       <span className="flex items-center gap-1">
@@ -135,6 +141,12 @@ export default async function CoursesPage() {
                       <h3 className="font-bold text-white text-base group-hover:text-emerald-300 transition">{course.title}</h3>
                       {course.description && (
                         <p className="text-sm text-slate-400 mt-1 line-clamp-2">{course.description}</p>
+                      )}
+                      {course.highlights && (
+                        <p className="mt-2.5 flex items-center gap-1.5 text-xs text-emerald-400/90 font-medium">
+                          <Sparkles className="w-3.5 h-3.5" />
+                          <span>Course Highlights Preview</span>
+                        </p>
                       )}
                     </div>
                     <div className="flex items-center justify-between text-xs text-slate-500">
